@@ -1,17 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123C32">
-  <meta name="description" content="Novoganic. Biología para la industria y el desarrollo. Alimentos, salud, limpieza e higiene y biomateriales.">
+  <meta name="theme-color" content="#102a22">
+  <meta name="description" content="Novoganic. Biología para la industria y el desarrollo.">
   <title>Novoganic | Biología para la industria y el desarrollo</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="js/main.js"></script>
 </head>
 <body>
-  <header>
-    <a href="#inicio" aria-label="Novoganic, inicio">Novoganic</a>
-
+  <header class="site-header">
+    <a class="brand" href="#inicio">novoganic</a>
     <nav aria-label="Navegación principal">
       <a href="#empresa">Empresa</a>
       <a href="#actividades">Actividades</a>
@@ -20,57 +27,65 @@
   </header>
 
   <main>
-    <section id="inicio">
-      <p>Biología para la industria y el desarrollo</p>
-      <h1>Novoganic</h1>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow">BIOLOGÍA · CIENCIA · INDUSTRIA</p>
+        <h1>Biología para la industria y el desarrollo.</h1>
+        <p class="hero-description">
+          Desarrollamos soluciones basadas en la biología
+          para alimentos, salud, limpieza e higiene y biomateriales.
+        </p>
+        <a class="hero-link" href="#actividades">
+          Explorar nuestras actividades <span aria-hidden="true">↗</span>
+        </a>
+        <p class="hero-caption">CUATRO CAMPOS · UNA BASE BIOLÓGICA</p>
+      </div>
+
+      <div class="hero-visual" id="biology-scene">
+        <canvas id="biology-canvas"
+          aria-label="Visualización tridimensional de un núcleo biológico y cuatro campos de aplicación">
+        </canvas>
+        <div class="scene-label scene-label-top">BIOLOGICAL SYSTEM <span>01</span></div>
+        <div class="scene-label scene-label-bottom">NOVOGANIC / BIOLOGY IN MOTION</div>
+        <div class="scene-loading" id="scene-loading">Inicializando sistema biológico...</div>
+      </div>
+    </section>
+
+    <section class="intro section" id="empresa">
+      <p class="eyebrow">NOVOGANIC</p>
+      <h2>Biología aplicada al desarrollo.</h2>
       <p>
-        Desarrollo y producción de soluciones basadas en la biología
-        para diversas aplicaciones industriales.
-      </p>
-      <a href="#actividades">Conocer nuestras actividades</a>
-    </section>
-
-    <section id="empresa">
-      <h2>Biología aplicada al desarrollo</h2>
-      <p>
-        Novoganic integra actividades dedicadas al desarrollo y producción
-        de alimentos, soluciones para la salud, productos de limpieza e
-        higiene y biomateriales.
+        Integramos actividades dedicadas al desarrollo y producción
+        de alimentos, soluciones para la salud, productos de limpieza
+        e higiene y biomateriales.
       </p>
     </section>
 
-    <section id="actividades">
-      <h2>Ámbitos de actividad</h2>
-
-      <article>
-        <h3>Alimentos</h3>
-        <p>Desarrollo y producción de productos alimentarios.</p>
-      </article>
-
-      <article>
-        <h3>Salud</h3>
-        <p>Desarrollo de soluciones y productos para aplicaciones relacionadas con la salud.</p>
-      </article>
-
-      <article>
-        <h3>Limpieza e higiene</h3>
-        <p>Desarrollo de productos para aplicaciones de limpieza e higiene.</p>
-      </article>
-
-      <article>
-        <h3>Biomateriales</h3>
-        <p>Desarrollo de materiales y soluciones basados en recursos biológicos.</p>
-      </article>
+    <section class="activities section" id="actividades">
+      <p class="eyebrow">ÁMBITOS DE ACTIVIDAD</p>
+      <h2>Una base científica. Diferentes aplicaciones.</h2>
+      <div class="activity-grid">
+        <article><span>01</span><h3>Alimentos</h3>
+          <p>Desarrollo y producción de productos alimentarios.</p></article>
+        <article><span>02</span><h3>Salud</h3>
+          <p>Soluciones y productos para aplicaciones relacionadas con la salud.</p></article>
+        <article><span>03</span><h3>Limpieza e higiene</h3>
+          <p>Productos para aplicaciones de limpieza e higiene.</p></article>
+        <article><span>04</span><h3>Biomateriales</h3>
+          <p>Materiales y soluciones basados en recursos biológicos.</p></article>
+      </div>
     </section>
 
-    <section id="contacto">
-      <h2>Contacto</h2>
+    <section class="contact section" id="contacto">
+      <p class="eyebrow">CONTACTO</p>
+      <h2>Construyamos nuevas soluciones.</h2>
       <p>Próximamente, información de contacto de Novoganic.</p>
     </section>
   </main>
 
   <footer>
-    <p>Novoganic — Biología para la industria y el desarrollo.</p>
+    <a class="brand" href="#inicio">novoganic</a>
+    <p>Biología para la industria y el desarrollo.</p>
     <p>© 2026 Novoganic. Todos los derechos reservados.</p>
   </footer>
 </body>

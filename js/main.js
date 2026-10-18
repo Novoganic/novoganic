@@ -563,10 +563,21 @@ for (let i = 0; i < 18; i++) {
 
       system.rotation.y = elapsed * 0.075 * speed + pointer.x * 0.16;
       system.rotation.x = Math.sin(elapsed * 0.18) * 0.035 * speed - pointer.y * 0.1;
+     
+core.rotation.y = elapsed * 0.12 * speed;
+core.rotation.x = Math.sin(elapsed * 0.2) * 0.05 * speed;
 
-      core.rotation.y = elapsed * 0.12 * speed;
-      core.rotation.x = Math.sin(elapsed * 0.2) * 0.05 * speed;
-      organelleGroup.rotation.y = -elapsed * 0.08 * speed;
+organelleGroup.rotation.y = -elapsed * 0.08 * speed;
+organelleGroup.rotation.z = Math.sin(elapsed * 0.24) * 0.035 * speed;
+
+membraneLines.rotation.y = -elapsed * 0.025 * speed;
+membranePoints.rotation.y = elapsed * 0.018 * speed;
+externalVesicles.rotation.y = elapsed * 0.035 * speed;
+
+organelles.forEach((organelle, i) => {
+  organelle.position.z +=
+    Math.sin(elapsed * 0.7 + i * 1.6) * 0.0008 * speed;
+});
 
       membrane.scale.setScalar(1 + Math.sin(elapsed * 0.8) * 0.008 * speed);
 

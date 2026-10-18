@@ -116,88 +116,212 @@ function addGlowPoint(group, position, color = 0x9de58c, size = 0.045) {
       depthWrite: false
     });
 
-    // Núcleo biológico central.
-    const core = new THREE.Group();
-    system.add(core);
+    
+const core = new THREE.Group();
+system.add(core);
 
-    const nucleus = new THREE.Mesh(
-      new THREE.SphereGeometry(1.12, 64, 48),
-      new THREE.MeshPhysicalMaterial({
-        color: 0x356d43,
-        roughness: 0.4,
-        metalness: 0,
-        clearcoat: 0.65
-      })
-    );
-    core.add(nucleus);
+// Cuerpo interno irregular, con aspecto de materia biológica.
+const nucleus = new THREE.Mesh(
+  createOrganicGeometry(1.05, 2.7, 5, 0.065),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x376b42,
+    roughness: 0.29,
+    metalness: 0,
+    clearcoat: 0.85,
+    clearcoatRoughness: 0.24
+  })
+);
+core.add(nucleus);
 
-    // Membrana externa translúcida.
-    const membrane = new THREE.Mesh(
-      new THREE.SphereGeometry(1.43, 64, 48),
-      membraneMaterial
-    );
-    core.add(membrane);
+// Segunda capa interior translúcida.
+const innerLayer = new THREE.Mesh(
+  createOrganicGeometry(1.22, 4.1, 5, 0.035),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x9bcf83,
+    roughness: 0.25,
+    transmission: 0.18,
+    thickness: 0.3,
+    transparent: true,
+    opacity: 0.28,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  })
+);
+core.add(innerLayer);
 
-    // Estructuras internas con formas y tamaños diferentes.
-    const organelleGroup = new THREE.Group();
-    core.add(organelleGroup);
+// Membrana externa con contorno orgánico.
+const membrane = new THREE.Mesh(
+  createOrganicGeometry(1.42, 1.3, 6, 0.045),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x92cb82,
+    roughness: 0.24,
+    metalness: 0,
+    clearcoat: 0.9,
+    clearcoatRoughness: 0.18,
+    transmission: 0.16,
+    thickness: 0.4,
+    transparent: true,
+    opacity: 0.42,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  })
+);
+core.add(membrane);
 
-    const organelleColors = [0x8bcf75, 0xb4df91, 0x367c52, 0xd0eab3];
+// Anillos parciales que sugieren capas de membrana.
+const membraneLines = new THREE.Group();
+core.add(membraneLines);
 
-    for (let i = 0; i < 12; i++) {
-      const angle = i * 2.399;
-      const radius = 0.35 + (i % 4) * 0.12;
+const lineMaterial = new THREE.MeshBasicMaterial({
+  color: 0xb5e9a2,
+  transparent: true,
+  opacity: 0.5
+});
 
-      const organelle = new THREE.Mesh(
-        new THREE.SphereGeometry(0.12 + (i % 3) * 0.045, 24, 18),
-        new THREE.MeshPhysicalMaterial({
-          color: organelleColors[i % organelleColors.length],
-          roughness: 0.3,
-          clearcoat: 0.6
-        })
-      );
+for (let j = 0; j < 5; j++) {
+  const points = [];
 
-      organelle.position.set(
-        Math.cos(angle) * radius,
-        Math.sin(angle) * radius * 0.8,
-        ((i % 3) - 1) * 0.28
-      );
+  for (let i = 0; i <= 90; i++) {
+    const t = -Math.PI * 0.75 + i / 90 * Math.PI * 1.5;
+    const r = 1.38 + j * 0.018;
 
-      organelle.scale.set(1.25, 0.75, 0.8);
-      organelleGroup.add(organelle);
-    }
+    points.push([
+      Math.cos(t) * r,
+      Math.sin(t) * r * (0.43 + j * 0.015),
+      Math.sin(t * 2 + j) * 0.06 + (j - 2) * 0.025
+    ]);
+  }
 
-    // Filamentos curvos dentro del núcleo.
-    const filamentMaterial = new THREE.MeshStandardMaterial({
-      color: 0xc2e8a6,
-      roughness: 0.45,
-      transparent: true,
-      opacity: 0.8
-    });
+  addTube(membraneLines, points, 0.008, lineMaterial, 90);
+}
 
-    for (let j = 0; j < 5; j++) {
-      const points = [];
+// Estructuras internas: vesículas y orgánulos de varios tamaños.
+const organelleGroup = new THREE.Group();
+core.add(organelleGroup);
 
-      for (let i = 0; i <= 60; i++) {
-        const t = i / 60;
-        const angle = t * Math.PI * 2 + j * 1.1;
-        const radius = 0.3 + t * 0.42;
+const organelleMaterials = [
+  new THREE.MeshPhysicalMaterial({
+    color: 0x9fd77d, roughness: 0.27, clearcoat: 0.8
+  }),
+  new THREE.MeshPhysicalMaterial({
+    color: 0xd0e9a6, roughness: 0.32
+  }),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x286443, roughness: 0.4, clearcoat: 0.6
+  }),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x6ab77b, roughness: 0.22, clearcoat: 0.9
+  })
+];
 
-        points.push(new THREE.Vector3(
-          Math.cos(angle) * radius,
-          Math.sin(angle * 1.35) * radius * 0.7,
-          Math.sin(angle * 0.7 + j) * 0.22
-        ));
-      }
+const organelles = [];
 
-      const curve = new THREE.CatmullRomCurve3(points);
-      const filament = new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 72, 0.018, 5, false),
-        filamentMaterial
-      );
+for (let i = 0; i < 22; i++) {
+  const angle = i * 2.399;
+  const radius = 0.22 + (i % 6) * 0.105;
+  const size = 0.065 + ((i * 7) % 5) * 0.018;
 
-      organelleGroup.add(filament);
-    }
+  const vesicle = new THREE.Mesh(
+    createOrganicGeometry(size, i * 1.73, 2, 0.09),
+    organelleMaterials[i % organelleMaterials.length]
+  );
+
+  vesicle.position.set(
+    Math.cos(angle) * radius,
+    Math.sin(angle) * radius * 0.8,
+    Math.sin(i * 2.1) * 0.48
+  );
+
+  vesicle.scale.set(
+    1 + (i % 3) * 0.2,
+    0.75 + (i % 4) * 0.1,
+    0.8 + (i % 2) * 0.2
+  );
+
+  organelleGroup.add(vesicle);
+  organelles.push(vesicle);
+}
+
+// Filamentos curvos distribuidos en el interior.
+const filamentMaterial = new THREE.MeshStandardMaterial({
+  color: 0xc4e6a7,
+  roughness: 0.38,
+  transparent: true,
+  opacity: 0.78
+});
+
+for (let j = 0; j < 9; j++) {
+  const points = [];
+
+  for (let i = 0; i <= 70; i++) {
+    const t = i / 70 * Math.PI * 2;
+    const r = 0.2 + 0.65 * (0.5 + 0.5 * Math.sin(t * 2 + j));
+
+    points.push([
+      Math.cos(t + j * 0.55) * r,
+      Math.sin(t * 1.45 + j) * r * 0.6,
+      Math.sin(t * 0.85 + j * 1.4) * 0.45
+    ]);
+  }
+
+  const curve = new THREE.CatmullRomCurve3(
+    points.map(p => new THREE.Vector3(...p))
+  );
+
+  organelleGroup.add(
+    new THREE.Mesh(
+      new THREE.TubeGeometry(curve, 90, 0.009, 5, false),
+      filamentMaterial
+    )
+  );
+}
+
+// Pequeños puntos luminosos adheridos a la membrana.
+const membranePoints = new THREE.Group();
+core.add(membranePoints);
+
+for (let i = 0; i < 95; i++) {
+  const y = 1 - 2 * (i + 0.5) / 95;
+  const radius = Math.sqrt(1 - y * y);
+  const angle = i * Math.PI * (3 - Math.sqrt(5));
+
+  const x = Math.cos(angle) * radius;
+  const z = Math.sin(angle) * radius;
+
+  const point = addGlowPoint(
+    membranePoints,
+    [x * 1.43, y * 1.43, z * 1.43],
+    i % 5 === 0 ? 0xd9f5bd : 0x80c875,
+    i % 5 === 0 ? 0.028 : 0.014
+  );
+
+  point.lookAt(x * 2, y * 2, z * 2);
+}
+
+// Vesículas pequeñas alrededor del núcleo.
+const externalVesicles = new THREE.Group();
+core.add(externalVesicles);
+
+for (let i = 0; i < 18; i++) {
+  const angle = i * 2.399;
+  const radius = 1.55 + (i % 4) * 0.12;
+  const size = 0.025 + (i % 3) * 0.012;
+
+  const vesicle = new THREE.Mesh(
+    new THREE.SphereGeometry(size, 12, 10),
+    new THREE.MeshBasicMaterial({
+      color: i % 4 === 0 ? 0xd4f6b4 : 0x77bd70
+    })
+  );
+
+  vesicle.position.set(
+    Math.cos(angle) * radius,
+    Math.sin(angle) * radius * 0.75,
+    Math.sin(i * 1.7) * 0.65
+  );
+
+  externalVesicles.add(vesicle);
+}
 
     // Cuatro campos representados por estructuras materiales abstractas.
     const fields = [

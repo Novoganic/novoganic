@@ -40,6 +40,20 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -.065em;
 }
 
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 42px;
+  max-width: 210px;
+  object-fit: contain;
+}
+
 .site-header nav {
   display: flex;
   gap: clamp(18px, 3vw, 38px);

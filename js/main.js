@@ -27,6 +27,53 @@ if (container && canvas) {
     const system = new THREE.Group();
     scene.add(system);
 
+function createOrganicGeometry(radius, seed, detail = 4, strength = 0.055) {
+  const geometry = new THREE.IcosahedronGeometry(radius, detail);
+  const position = geometry.attributes.position;
+
+  for (let i = 0; i < position.count; i++) {
+    const x = position.getX(i);
+    const y = position.getY(i);
+    const z = position.getZ(i);
+
+    const wave =
+      Math.sin(x * 8 + seed) *
+      Math.cos(y * 7 - seed) *
+      Math.sin(z * 9 + seed * 0.7);
+
+    const scale = 1 + wave * strength;
+    position.setXYZ(i, x * scale, y * scale, z * scale);
+  }
+
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function addTube(group, points, radius, material, segments = 80) {
+  const curve = new THREE.CatmullRomCurve3(
+    points.map(point => new THREE.Vector3(...point))
+  );
+
+  const tube = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, segments, radius, 6, false),
+    material
+  );
+
+  group.add(tube);
+  return tube;
+}
+
+function addGlowPoint(group, position, color = 0x9de58c, size = 0.045) {
+  const point = new THREE.Mesh(
+    new THREE.SphereGeometry(size, 12, 10),
+    new THREE.MeshBasicMaterial({ color })
+  );
+
+  point.position.set(...position);
+  group.add(point);
+  return point;
+}
+
     // Iluminación suave para superficies orgánicas.
     scene.add(new THREE.HemisphereLight(0xe5ffe7, 0x173c28, 2.2));
 

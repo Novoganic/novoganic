@@ -266,6 +266,88 @@ a { color: inherit; text-decoration: none; }
 
 .contact { background: white; }
 
+/* Objetivos corporativos */
+.objectives-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 38px 32px;
+  margin-top: 48px;
+}
+
+.objective {
+  min-width: 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.objective-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 22px;
+  color: var(--green);
+}
+
+.objective-icon svg {
+  width: 30px;
+  height: 30px;
+  transition: transform .25s ease;
+}
+
+.objective:hover .objective-icon svg {
+  transform: translateY(-3px);
+}
+
+.objective h3 {
+  margin: 0 0 14px;
+  color: var(--deep);
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -.02em;
+}
+
+.objective p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 800px) {
+  .objectives-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .objectives-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .objective {
+    padding-top: 18px;
+  }
+
+  .objective h3 {
+    font-size: 1.02rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .objective-icon svg {
+    transition: none;
+  }
+
+  .objective:hover .objective-icon svg {
+    transform: none;
+  }
+}
+
 footer {
   padding: 35px 8%;
   display: flex;

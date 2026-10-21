@@ -289,7 +289,7 @@ button:focus-visible {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;        /* ← cambia a "contain" si quieres ver la imagen completa */
+  object-fit: contain;        /* ← cambia a "contain" si quieres ver la imagen completa */
   background: #dfe6db;      /* relleno suave si usas contain */
 }
 

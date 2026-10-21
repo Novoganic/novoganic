@@ -6,6 +6,8 @@
   --muted: #66766d;
   --paper: #f7f8f5;
   --line: #e0e6df;
+  --page-max: 1280px;            
+  --page-pad: clamp(1.25rem, 5vw, 4rem);
 }
 
 * { box-sizing: border-box; }

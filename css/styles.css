@@ -268,8 +268,12 @@ button:focus-visible {
 }
 .company-carousel::-webkit-scrollbar-thumb:hover { background: #5f6c7a; }
 
+/* Tarjeta cuadrada */
 .company-card {
   flex: 0 0 300px;
+  height: 300px;                /* ← cuadrada */
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid #cdd8ca;
   border-radius: 8px;
@@ -289,7 +293,8 @@ button:focus-visible {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: contain;        /* ← cambia a "contain" si quieres ver la imagen completa */
+  object-fit: contain;
+  padding: 12px;/* ← cambia a "contain" si quieres ver la imagen completa */
   background: #dfe6db;      /* relleno suave si usas contain */
 }
 

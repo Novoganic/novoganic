@@ -614,3 +614,43 @@ organelles.forEach((organelle, i) => {
     }
   }
 }
+/* ===== Carrusel de actualidad ===== */
+document.querySelectorAll("[data-carousel]").forEach(carousel => {
+  const track = carousel.querySelector("[data-carousel-track]");
+  const prev = carousel.querySelector("[data-carousel-prev]");
+  const next = carousel.querySelector("[data-carousel-next]");
+  if (!track || !prev || !next) return;
+
+  const step = () => {
+    const card = track.querySelector(".news-card");
+    if (!card) return track.clientWidth;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const updateButtons = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth - 1;
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = track.scrollLeft >= maxScroll;
+  };
+
+  prev.addEventListener("click", () => {
+    track.scrollBy({ left: -step(), behavior: "smooth" });
+  });
+
+  next.addEventListener("click", () => {
+    track.scrollBy({ left: step(), behavior: "smooth" });
+  });
+
+  track.addEventListener("scroll", updateButtons, { passive: true });
+  window.addEventListener("resize", updateButtons);
+
+  // Estado inicial (por si el carrusel no necesita flechas)
+  updateButtons();
+
+  // Navegación con teclado (flechas izquierda/derecha)
+  track.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); next.click(); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); prev.click(); }
+  });
+});

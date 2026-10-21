@@ -332,14 +332,11 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== Footer ===== */
 .site-footer {
-  padding: 64px 8% 32px;
   color: #d8e3da;
   background: var(--deep);
 }
 
 .footer-inner {
-  max-width: 1280px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 48px;
@@ -479,7 +476,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Responsive del footer */
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .footer-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px;
@@ -487,14 +484,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 520px) {
-  .site-footer { padding: 48px 7% 28px; }
   .footer-links {
     grid-template-columns: 1fr;
     gap: 28px;
     padding-top: 32px;
   }
   .footer-inner { gap: 32px; }
-}
 }
 /* ===== Actualidad / Carrusel ===== */
 .actualidad {

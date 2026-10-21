@@ -298,7 +298,6 @@ button:focus-visible {
   object-fit: contain;
   object-position: center;
   background: #dfe6db;
-  padding: 1px;                /* aire alrededor de la imagen */
 }
 
 /* Contenido: mitad inferior */

@@ -627,7 +627,7 @@ a { color: inherit; text-decoration: none; }
 .carousel-btn--next { right: 4px; }
 
 /* Responsive: 2 columnas en tablet, 1.15 en móvil */
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .carousel-track {
     grid-auto-columns: calc((100% - 28px) / 2);
   }

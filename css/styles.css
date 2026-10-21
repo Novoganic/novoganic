@@ -121,13 +121,6 @@ a { color: inherit; text-decoration: none; }
 
 .hero-link span { color: var(--green); font-size: 1.2rem; }
 
-.hero-caption {
-  margin-top: 65px;
-  color: #78877d;
-  font-size: .64rem;
-  letter-spacing: .13em;
-}
-
 .hero-visual {
   position: relative;
   width: 100%;
